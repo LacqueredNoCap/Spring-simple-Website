@@ -1,21 +1,23 @@
 package com.github.lacquerednocap.controller;
 
-import com.github.lacquerednocap.domain.Role;
-import com.github.lacquerednocap.domain.User;
-import com.github.lacquerednocap.repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.github.lacquerednocap.entity.Role;
+import com.github.lacquerednocap.entity.User;
+import com.github.lacquerednocap.repository.UserRepository;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
-import java.util.Map;
 
-@Controller
+@RestController
 public class RegistrationController {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final UserRepository userRepo;
+
+    public RegistrationController(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/registration")
     public  String registration() {
@@ -23,11 +25,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Map<String, Object> model) {
+    public String addUser(User user, Model model) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            model.put("message", "user exists!");
+            model.addAttribute("message", "user exists!");
             return "registration";
         }
 

@@ -38,7 +38,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- DataBase support -->
+        <!-- DB connection -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
